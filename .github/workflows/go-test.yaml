@@ -1,0 +1,29 @@
+name: Test Go Code
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [1.21.1]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Install Dpendencies
+        run: go get .
+      - name: Test with Go
+        run: go test -json > TestResults-${{ matrix.go-version }}.json
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: Go-results-${{ matrix.go-version }}
+          path: TestResults-${{ matrix.go-version }}.json 

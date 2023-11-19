@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ingress-target-updater
+  namespace: ingress-target-updater
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: ingress-target-updater
+          restartPolicy: OnFailure
+          containers:
+          - name: ingress-target-updater
+            image: ebmba/ingress-target-updater:latest
+            imagePullPolicy: IfNotPresent
