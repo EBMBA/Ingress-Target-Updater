@@ -1,5 +1,5 @@
-kind: namespace
 apiVersion: v1
+kind: Namespace
 metadata:
   name: ingress-target-updater
   labels:

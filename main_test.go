@@ -21,7 +21,7 @@ func TestGetPublicIP(t *testing.T) {
 	defer server.Close()
 
 	// Set the test server URL as the API URL
-	apiURL = server.URL
+	args.ApiURL = server.URL
 
 	// Call the function being tested
 	ip, err := getPublicIP()
@@ -46,7 +46,7 @@ func TestGetPublicIP_Error(t *testing.T) {
 	defer server.Close()
 
 	// Set the test server URL as the API URL
-	apiURL = server.URL
+	args.ApiURL = server.URL
 
 	// Call the function being tested
 	ip, err := getPublicIP()
@@ -61,6 +61,7 @@ func TestGetPublicIP_Error(t *testing.T) {
 		t.Errorf("getPublicIP returned an unexpected IP. Expected: '', Got: %s", ip)
 	}
 }
+
 func TestSetIngressAnnotation(t *testing.T) {
 	// Create a context
 	ctx := context.TODO()

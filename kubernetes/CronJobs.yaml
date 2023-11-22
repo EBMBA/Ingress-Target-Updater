@@ -16,3 +16,8 @@ spec:
           - name: ingress-target-updater
             image: ebmba/ingress-target-updater:latest
             imagePullPolicy: IfNotPresent
+            # args:
+            # - --api-url="https://api.ipify.org?format=json"
+            # - --target-annotation-key="external-dns.alpha.kubernetes.io/target"
+            # - --filter-label-key="ingress-target-updater"
+            # - --filter-label-value="true"
