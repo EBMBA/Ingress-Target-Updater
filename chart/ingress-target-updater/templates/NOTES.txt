@@ -1,0 +1,3 @@
+The ingress-target-updater have been installed on the cluster. 
+
+Welcome to the ingress-target-updater! This tool will help you to keep your dns records up to date with the ingress resources on your cluster.

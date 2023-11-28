@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "ingress-target-updater.fullname" . }}
+  labels:
+    {{- include "ingress-target-updater.labels" . | nindent 4 }}
+  namespace: {{ include "ingress-target-updater.namespace" .}}
+spec:
+  schedule: {{ .Values.schedule | quote }}
+  concurrencyPolicy: {{ .Values.concurrencyPolicy | quote }} 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: {{ include "ingress-target-updater.serviceAccountName" . }}
+          restartPolicy: OnFailure
+          containers:
+          - name: ingress-target-updater
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            resources:
+{{ toYaml .Values.resources | indent 14 }}
+            {{- with .Values.podArgs }}
+            args:
+{{ toYaml . | indent 12 }}
+            {{- end }}
+        {{- with .Values.nodeSelector }}
+        nodeSelector:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        {{- with .Values.affinity }}
+        affinity:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        {{- with .Values.tolerations }}
+        tolerations:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
+        annotations:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        {{- with .Values.podLabels }}
+        labels:
+{{ toYaml . | indent 10 }}
+        {{- end }}
